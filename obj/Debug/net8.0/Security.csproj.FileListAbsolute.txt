@@ -190,3 +190,4 @@ C:\Users\gabri\Desktop\learning-center-platform-master\Security\obj\Debug\net8.0
 C:\Users\gabri\Desktop\learning-center-platform-master\Security\obj\Debug\net8.0\Security.pdb
 C:\Users\gabri\Desktop\learning-center-platform-master\Security\obj\Debug\net8.0\Security.genruntimeconfig.cache
 C:\Users\gabri\Desktop\learning-center-platform-master\Security\obj\Debug\net8.0\ref\Security.dll
+C:\Users\gabri\Desktop\learning-center-platform-master\Security\obj\Debug\net8.0\Security.sourcelink.json

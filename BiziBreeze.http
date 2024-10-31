@@ -1,0 +1,6 @@
+@BiziBreeze_HostAddress = http://localhost:5108
+
+GET {{BiziBreeze_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
