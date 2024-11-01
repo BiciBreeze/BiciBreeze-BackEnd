@@ -39,4 +39,8 @@
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Rent\Domain\Model\Queries\GetAllOrderByidQuery.cs" />
+    </ItemGroup>
+
 </Project>

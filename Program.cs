@@ -16,6 +16,10 @@ using Security.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Security.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Security.Rent.Application.Internal.CommandServices;
+using Security.Rent.Domain.Repositories;
+using Security.Rent.Domain.Services;
+using Security.Rent.Infrastructure.Persistence.EFC.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,9 +57,9 @@ builder.Services.AddSwaggerGen(
         c.SwaggerDoc("v1",
             new OpenApiInfo
             {
-                Title = "Security",
+                Title = "BiciBreeze API",
                 Version = "v1",
-                Description = "ACME Learning Center Platform API",
+                Description = "BiciBreeze API Documentation",
                 TermsOfService = new Uri("https://acme-learning.com/tos"),
                 Contact = new OpenApiContact
                 {
@@ -122,6 +126,12 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+// Rent Bounded Context Injection Configuration
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
+builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
+
 
 var app = builder.Build();
 
