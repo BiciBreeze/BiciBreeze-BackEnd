@@ -20,6 +20,9 @@ using Security.Rent.Application.Internal.CommandServices;
 using Security.Rent.Domain.Repositories;
 using Security.Rent.Domain.Services;
 using Security.Rent.Infrastructure.Persistence.EFC.Repositories;
+using Security.Subscriptionss.Application.Internal.CommandServices;
+using Security.Subscriptionss.Domain.Repositories;
+using Security.Subscriptionss.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,6 +134,8 @@ builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
 builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
+builder.Services.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();
+builder.Services.AddScoped<ISubscriptionsCommandService, ISubscriptionsCommandService>();
 
 
 var app = builder.Build();

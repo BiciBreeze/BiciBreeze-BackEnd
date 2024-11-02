@@ -3,11 +3,14 @@ using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Security.IAM.Domain.Model.Aggregates;
 using Security.Rent.Domain.Model.Aggregates;
+//using Security.Subscription.Domain.Model.Aggregates;
 
 namespace Security.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
+    //public DbSet<Subscription> Subscriptions { get; set; }
+   // public DbSet<CreditCard> CreditCards { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         base.OnConfiguring(builder);
