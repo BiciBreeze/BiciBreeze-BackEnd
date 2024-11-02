@@ -3,6 +3,7 @@ using Security.Bikes.Application.Internal.CommandServices;
 using Security.Bikes.Application.Internal.QueryServices;
 using Security.Bikes.Interfaces.REST.Resources;
 using Security.Bikes.Interfaces.REST.Transform;
+using System.Net;
 
 namespace Security.Bikes.REST.Controllers
 {
@@ -22,23 +23,55 @@ namespace Security.Bikes.REST.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBike([FromBody] BikeResource bikeResource)
         {
-            var bike = BikeTransform.ToEntity(bikeResource);
-            await _bikeCommandService.AddBikeAsync(bike);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var bike = BikeTransform.ToEntity(bikeResource);
+                await _bikeCommandService.AddBikeAsync(bike);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BikeResource>> GetAllBikes()
+        public async Task<IActionResult> GetAllBikes()
         {
-            var bikes = await _bikeQueryService.GetAllBikesAsync();
-            return bikes.Select(BikeTransform.ToResource);
+            try
+            {
+                var bikes = await _bikeQueryService.GetAllBikesAsync();
+                var bikeResources = bikes.Select(BikeTransform.ToResource);
+                return Ok(bikeResources);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<BikeResource> GetBikeById(int id)
+        public async Task<IActionResult> GetBikeById(int id)
         {
-            var bike = await _bikeQueryService.GetBikeByIdAsync(id);
-            return BikeTransform.ToResource(bike);
+            try
+            {
+                var bike = await _bikeQueryService.GetBikeByIdAsync(id);
+                if (bike == null)
+                {
+                    return NotFound();
+                }
+                var bikeResource = BikeTransform.ToResource(bike);
+                return Ok(bikeResource);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }
