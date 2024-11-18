@@ -155,7 +155,8 @@ using (var scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // Apply CORS Policy
@@ -164,10 +165,6 @@ app.UseCors("AllowedAllPolicy");
 // Add Authorization Middleware to the Request Pipeline
 
 // Add Authorization Middleware to the Request Pipeline
-app.UseSwagger();
-
-app.UseSwaggerUI();
-
 app.UseMiddleware<RequestAuthorizationMiddleware>();
 
 app.UseRequestAuthorization();
