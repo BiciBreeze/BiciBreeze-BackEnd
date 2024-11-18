@@ -16,6 +16,7 @@ using Security.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Security.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Security.IAM.Infrastructure.Pipeline.Middleware.Components;
 using Security.Rental.Application.Interfaces;
 using Security.Rental.Application.Services;
 using Security.Rental.Domain.Interfaces;
@@ -117,11 +118,7 @@ builder.Services.AddCors(options =>
 
 // Configure Dependency Injection
 
-// Shared Bounded Context Injection Configuration
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
-// IAM Bounded Context Injection Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
@@ -129,6 +126,15 @@ builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IRentalService, RentalService>();
+
+
+// Shared Bounded Context Injection Configuration
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+
 
 // Rent Bounded Context Injection Configuration
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
@@ -157,6 +163,9 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowedAllPolicy");
 
 // Add Authorization Middleware to the Request Pipeline
+
+// Add Authorization Middleware to the Request Pipeline
+app.UseMiddleware<RequestAuthorizationMiddleware>();
 
 app.UseRequestAuthorization();
 
