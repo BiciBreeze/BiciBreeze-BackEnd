@@ -41,6 +41,7 @@
 
     <ItemGroup>
       <Compile Remove="Rent\Domain\Model\Queries\GetAllOrderByidQuery.cs" />
+      <Compile Remove="Rental\Domain\Events\RentalDomainEvents.cs" />
     </ItemGroup>
 
 </Project>

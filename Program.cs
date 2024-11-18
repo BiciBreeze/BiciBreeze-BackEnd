@@ -16,10 +16,10 @@ using Security.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Security.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Security.Rent.Application.Internal.CommandServices;
-using Security.Rent.Domain.Repositories;
-using Security.Rent.Domain.Services;
-using Security.Rent.Infrastructure.Persistence.EFC.Repositories;
+using Security.Rental.Application.Interfaces;
+using Security.Rental.Application.Services;
+using Security.Rental.Domain.Interfaces;
+using Security.Rental.Infrastructure.Repositories;
 using Security.Subscriptionss.Application.Internal.CommandServices;
 using Security.Subscriptionss.Domain.Repositories;
 using Security.Subscriptionss.Infrastructure.Repositories;
@@ -131,11 +131,8 @@ builder.Services.AddScoped<IHashingService, HashingService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 // Rent Bounded Context Injection Configuration
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
-builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
-builder.Services.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();
-builder.Services.AddScoped<ISubscriptionsCommandService, ISubscriptionsCommandService>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 
 var app = builder.Build();

@@ -2,15 +2,18 @@ using Security.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Security.IAM.Domain.Model.Aggregates;
-using Security.Rent.Domain.Model.Aggregates;
-//using Security.Subscription.Domain.Model.Aggregates;
+using Security.Rental.Domain.Entities;
+using Security.Rental.Infrastructure.Migrations;
+using Security.Rental.Infrastructure.Persistence;
 
 namespace Security.Shared.Infrastructure.Persistence.EFC.Configuration;
 
-public class AppDbContext(DbContextOptions options) : DbContext(options)
+public class AppDbContext : DbContext
 {
-    //public DbSet<Subscription> Subscriptions { get; set; }
-   // public DbSet<CreditCard> CreditCards { get; set; }
+    public AppDbContext(DbContextOptions options) : base(options) { }
+
+    public DbSet<BikeRental> BikeRentals { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         base.OnConfiguring(builder);
@@ -22,19 +25,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
 
-        
-        
         // IAM Context
         builder.Entity<User>().HasKey(u => u.Id);
         builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<User>().Property(u => u.Username).IsRequired();
         builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
-        
-        //Rent Context
-        builder.Entity<ConcreteOrder>().HasKey(o => o.Id);
-        builder.Entity<ConcreteOrder>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<ConcreteOrder>().Property(o => o.OrderNumber).IsRequired();
-        builder.Entity<ConcreteOrder>().Property(o => o.CustomerId).IsRequired();
+
+        // Apply Rental Configuration
+        builder.ApplyConfiguration(new RentalConfiguration());
 
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
